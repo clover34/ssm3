@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.RegionMapper">
+    <!--增：新增一条记录-->
+    <insert id="addRegion" parameterType="Region">
+        insert into region(r_name,p_id) values(#{rName},#{pId})
+    </insert>
+    <!--删：根据编号删除一条记录-->
+    <delete id="delRegionById" parameterType="int">
+        delete from region where r_id = #{rId}
+    </delete>
+    <!--改：根据编号修改信息-->
+    <update id="updateRegionById" parameterType="Region">
+        update region
+        <set>
+            <if test="rName != null">
+                r_name = #{rName},
+            </if>
+            <if test="pId != null">
+                p_id = ${pId},
+            </if>
+        </set>
+        where r_id = #{rId}
+    </update>
+
+    <resultMap id="RegionMap" type="Region">
+        <id property="rId" column="r_id"></id>
+        <result property="rName" column="r_name"></result>
+        <result property="pId" column="p_id"></result>
+        <association property="province" resultMap="ProvinceMap"></association>
+    </resultMap>
+    <resultMap id="ProvinceMap" type="Province">
+        <id property="pId" column="p_id"></id>
+        <result property="pName" column="p_name"></result>
+    </resultMap>
+
+    <!--查：根据编号查询信息-->
+    <select id="findRegionById" parameterType="int" resultMap="RegionMap">
+        select r.*,p.p_name
+        from region r,province p
+        where r.p_id = p.p_id and r.r_id = #{rId}
+    </select>
+
+    <!--查：根据名称查询一条记录-->
+    <select id="findRegionByName" parameterType="string" resultMap="RegionMap">
+        select r.*,p.p_name
+        from region r,province p
+        where r.p_id = p.p_id and r.r_name = #{rName}
+    </select>
+    <!--查：查询表总记录数-->
+    <select id="findAllRegion" resultMap="RegionMap">
+        select r.*,p.p_name
+        from region r,province p
+        where r.p_id = p.p_id
+    </select>
+    <!--查：根据 p_id 查询记录-->
+    <select id="findRegionByPid" parameterType="int" resultMap="RegionMap">
+        select r.*,p.p_name
+        from region r,province p
+        where r.p_id = p.p_id and r.p_id = #{pId}
+    </select>
+    <!--查：查询表总记录数-->
+    <select id="findCount" resultType="int">
+        select count(r_id) from region
+    </select>
+</mapper>
