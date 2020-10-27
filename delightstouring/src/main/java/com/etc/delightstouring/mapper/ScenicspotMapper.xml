@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.ScenicspotMapper">
+
+    <!--新增景点-->
+    <insert id="add" parameterType="Scenicspot">
+        insert into scenicspot(UUID,ssId,ssName,pId,rId,ssDescribe,ssAddress,ssPhotopath,ssOpendate) values(#{UUID},#{ssId},#{ssName},#{pId},#{rId},#{ssDescribe},#{ssAddress},#{ssPhotopath},#{ssOpendate})
+    </insert>
+
+    <!--删除景点-->
+    <delete id="delete" parameterType="int">
+        delete from scenicspot where ssId=#{ssId}
+    </delete>
+
+    <!--修改景点-->
+    <update id="update" parameterType="Scenicspot">
+        update scenicspot set ssName=#{ssName},pId=#{pId},rId=#{rId},ssDescribe=#{ssDescribe},ssAddress=#{ssAddress},ssPhotopath=#{ssPhotopath},ssOpendate=#{ssOpendate} where ss_id=#{sId}
+    </update>
+
+    <!--查：查询景点表记录数-->
+    <select id="count" resultType="int">
+        select count(ssId) from scenicspot
+</select>
+
+    <!--查询所有景点-->
+    <select id="findAll" resultType="Scenicspot">
+        select * from scenicspot
+    </select>
+
+    <!--根据省份查找景点-->
+    <select id="findByPid" resultType="Scenicspot">
+        select * from scenicspot  where pId=#{pId}
+    </select>
+
+    <!--根据地区查找景点-->
+    <select id="findByRid" resultType="Scenicspot">
+        select * from scenicspot  where rId=#{rId}
+    </select>
+
+    <!--根据景点名称查找景点-->
+    <select id="findByName" parameterType="string" resultType="Scenicspot">
+        select * from scenicspot where ssName like '%${ssName}%'
+    </select>
+
+    <!--根据景点描述模糊查询-->
+    <select id="findByDescribe" parameterType="string" resultType="Scenicspot">
+        select * from scenicspot where ssDescribe like '%${ssDescribe}%'
+    </select>
+</mapper>
