@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.StatusMapper">
+    <!--增：新增一条记录-->
+    <insert id="addStatus" parameterType="Status">
+        insert into status(s_id,s_name) values(#{sId},#{sName})
+    </insert>
+    <!--删：根据编号删除记录-->
+    <delete id="delStatusById" parameterType="int">
+        delete from status where s_id = #{sId}
+    </delete>
+    <!--修改：根据编号修改一条记录-->
+    <update id="updateStatusById" parameterType="Status">
+        update status
+        <set>
+            <if test="sName != null">
+                s_name = #{sName}
+            </if>
+        </set>
+        where s_id = #{sId}
+    </update>
+    <!--查：查询所有记录信息-->
+    <select id="findAllStatus" resultType="Status">
+        select * from status
+    </select>
+    <!--查：根据编号查询记录-->
+    <select id="findStatusById" parameterType="int" resultType="Status">
+        select * from status where s_id = #{sId}
+    </select>
+    <!--查：根据名称查询记录-->
+    <select id="findStatusByName" parameterType="string" resultType="Status">
+        select * from status where s_name = #{sName}
+    </select>
+    <!--查：查询总记录数-->
+    <select id="findCount" resultType="int">
+        select count(s_id) from status
+    </select>
+
+</mapper>

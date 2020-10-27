@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.ProvinceMapper">
+    <!--增：新增省份信息-->
+    <insert id="addProvince" parameterType="Province">
+        insert into province(p_name) values(#{pName})
+    </insert>
+    <!--删：根据编号删除省份信息-->
+    <delete id="delProvinceById" parameterType="int">
+        delete from province where p_id = #{pId}
+    </delete>
+    <!--改：根据编号修改省份信息-->
+    <update id="updateProvinceById" parameterType="Province">
+        update province
+        <set>
+            <if test="pName != null">
+                p_name = #{pName},
+            </if>
+        </set>
+        where p_id = #{pId}
+    </update>
+    <!--查：查询省份变记录数-->
+    <select id="findCount" resultType="int">
+        select count(p_id) from province
+    </select>
+    <!--查：根据编号查询省份信息-->
+    <select id="findProvinceById" parameterType="int" resultMap="ProvinceMap">
+        select * from province where p_id = #{pId}
+    </select>
+    <!--查：根据名称查询省份信息-->
+    <select id="findProvinceByName" parameterType="string" resultMap="ProvinceMap">
+        select * from province where p_name = #{pName}
+    </select>
+    <!--查：查询所有省份信息-->
+    <select id="findAllProvince" resultMap="ProvinceMap">
+        select * from province
+    </select>
+
+    <resultMap id="ProvinceMap" type="Province">
+        <id property="pId" column="p_id"></id>
+        <result property="pName" column="p_name"></result>
+        <collection property="regions" column="p_id" ofType="Region"
+                    select="com.etc.delightstouring.mapper.RegionMapper.findRegionByPid"></collection>
+    </resultMap>
+
+</mapper>
