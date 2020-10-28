@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.AdminMapper">
+
+    <!--  新增管理员信息-->
+    <insert id="addAdmin" parameterType="Admin">
+        insert into admin(UUID,a_id,a_name,password,a_phone,a_role,a_exists)
+        values(#{UUID},#{aId},#{aName},#{password},#{aPhone},#{aRole},#{aExists})
+    </insert>
+
+    <!--  根据管理员编号删除管理员信息-->
+    <delete id="delAdminById" parameterType="String">
+        update admin set a_exists = 0 where a_id = #{aId}
+    </delete>
+
+    <!--  根据管理员编号修改管理员信息-->
+    <update id="updateAdminById" parameterType="Admin">
+        update admin
+        <set>
+            <if test="aName != null">
+                a_name = #{aName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="aPhone != null">
+                a_phone = #{aPhone},
+            </if>
+            <if test="aRole != null">
+                a_role = #{aRole},
+            </if>
+            <if test="aExists != null">
+                a_exists = #{aExists},
+            </if>
+        </set>
+        where a_id = #{aId}
+    </update>
+
+    <!--  根据管理员编号查询信息-->
+    <select id="findAdminById" parameterType="String" resultType="Admin">
+        select * from admin where a_id = #{aId}
+    </select>
+
+    <!--查：根据名称查询记录-->
+    <select id="findAdminByName" parameterType="string" resultType="Admin">
+        select * from admin where a_name = #{aName}
+    </select>
+
+    <!-- 模糊查询：根据管理员姓名模糊查询-->
+    <select id="findAdminLikeName" parameterType="map" resultType="Admin">
+        select * from admin where a_name like '%${aName}%' and a_exists like '%${aExists}%'
+    </select>
+
+    <!-- 查询所有管理员信息-->
+    <select id="findAdminByNameAndPwd" parameterType="map" resultType="Admin">
+        select * from admin where a_name = #{aName} and password = #{password}
+    </select>
+
+    <!--查询总记录数-->
+    <select id="findCount" resultType="int">
+        select count(UUID) from admin
+    </select>
+
+</mapper>

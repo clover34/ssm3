@@ -3,32 +3,56 @@
 <mapper namespace="com.etc.delightstouring.mapper.NewmessageMapper">
 
     <!--增加留言-->
-    <insert id="add" parameterType="Newmessage">
-        insert into newmessage(uid,message,nmDate) values(#{uid},#{message},#{nmDate})
+    <insert id="addNewmessage" parameterType="Newmessage">
+        insert into newmessage(u_id,message,nm_date)
+        values(#{uId},#{message},#{nmDate})
     </insert>
 
     <!--删除留言-->
-    <delete id="delete" parameterType="int">
-        delete from newmessage where uid=#{uid}
+    <delete id="delNewmessageById" parameterType="int">
+        delete from newmessage where nm_id = #{nmId}
     </delete>
 
     <!--修改留言-->
-    <update id="update" parameterType="Newmessage">
-        update newmessage set message=#{message},nmDate=#{nmDate} where uid=#{uid}
+    <update id="updateNewmessageById" parameterType="Newmessage">
+        update newmessage
+        <set>
+            <if test="message != null">
+                message = #{message},
+            </if>
+            <if test="nmDate != null">
+                nm_date = #{nmDate},
+            </if>
+        </set>
+        where nm_id = #{nmId}
     </update>
 
     <!--查：查询留言表记录数-->
-    <select id="count" resultType="int">
-        select count(uid) from newmessage
-</select>
+    <select id="findCount" resultType="int">
+        select count(nm_id) from newmessage
+    </select>
+
+    <resultMap id="NewmessageMap" type="Newmessage">
+        <id property="nmId" column="nm_id"></id>
+        <result property="uId" column="u_id"></result>
+        <result property="message" column="message"></result>
+        <result property="nmDate" column="nm_date"></result>
+        <association property="users" column="uId"
+                     select="com.etc.delightstouring.mapper.UserMapper.findUserById">
+        </association>
+    </resultMap>
 
     <!--查询所有留言-->
-    <select id="findAll" resultType="Newmessage">
+    <select id="findAllNewmessage" resultMap="NewmessageMap">
         select * from newmessage
     </select>
 
     <!--根据编号查找留言-->
-    <select id="findByUid" parameterType="int" resultType="Newmessage">
-        select * from newmessage where uid=#{uid}
+    <select id="findNewmessageById" parameterType="int" resultMap="NewmessageMap">
+        select * from newmessage where nm_id = #{nmId}
+    </select>
+    <!--查：根据用户编号查找记录-->
+    <select id="findNewmessageByUid" parameterType="string" resultMap="NewmessageMap">
+        select * from newmessage where u_id like '%${uid}%'
     </select>
 </mapper>

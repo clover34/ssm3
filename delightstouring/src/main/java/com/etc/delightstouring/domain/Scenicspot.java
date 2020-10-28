@@ -1,24 +1,43 @@
 package com.etc.delightstouring.domain;
 
 import java.io.Serializable;
-
+/**
+ * @ClassName Scenicspot
+ * @Description TODO
+ * @Author 张权
+ * @Date 20/10/27 14:48
+ * @Version 1.0
+ **/
 public class Scenicspot implements Serializable {
     private String UUID;//UUID
     private String ssId;//景点编号
     private String ssName;//景点名称
-    private int pId;//省份编号
-    private int rId;//地区编号
+    private Integer pId;//省份编号
+    private Integer rId;//地区编号
     private String ssDescribe;//景点描述
     private String ssAddress;//景点地址
     private String ssPhotopath;//景点图片
     private String ssOpendate;//开放时间
-    private Province province;
-    private Region region;
+
+    private Province province;// 所属省份
+    private Region region;// 所属地区
 
     public Scenicspot() {
     }
 
-    public Scenicspot(String UUID, String ssId, String ssName, int pId, int rId, String ssDescribe, String ssAddress, String ssPhotopath, String ssOpendate) {
+    public Scenicspot(String ssId, String ssName, Integer pId, Integer rId, String ssDescribe, String ssAddress, String ssPhotopath, String ssOpendate) {
+        this.ssId = ssId;
+        this.ssName = ssName;
+        this.pId = pId;
+        this.rId = rId;
+        this.ssDescribe = ssDescribe;
+        this.ssAddress = ssAddress;
+        this.ssPhotopath = ssPhotopath;
+        this.ssOpendate = ssOpendate;
+    }
+
+    public Scenicspot(String UUID, String ssId, String ssName, Integer pId, Integer rId,
+                      String ssDescribe, String ssAddress, String ssPhotopath, String ssOpendate) {
         this.UUID = UUID;
         this.ssId = ssId;
         this.ssName = ssName;
@@ -36,12 +55,14 @@ public class Scenicspot implements Serializable {
                 "UUID='" + UUID + '\'' +
                 ", ssId='" + ssId + '\'' +
                 ", ssName='" + ssName + '\'' +
+                ", pId=" + pId +
+                ", rId=" + rId +
                 ", ssDescribe='" + ssDescribe + '\'' +
                 ", ssAddress='" + ssAddress + '\'' +
                 ", ssPhotopath='" + ssPhotopath + '\'' +
                 ", ssOpendate='" + ssOpendate + '\'' +
-                ", pId=" + pId +
-                ", rId=" + rId +
+                ", province=" + province +
+                ", region=" + region +
                 '}';
     }
 
@@ -101,19 +122,19 @@ public class Scenicspot implements Serializable {
         this.ssOpendate = ssOpendate;
     }
 
-    public int getpId() {
+    public Integer getpId() {
         return pId;
     }
 
-    public void setpId(int pId) {
+    public void setpId(Integer pId) {
         this.pId = pId;
     }
 
-    public int getrId() {
+    public Integer getrId() {
         return rId;
     }
 
-    public void setrId(int rId) {
+    public void setrId(Integer rId) {
         this.rId = rId;
     }
 

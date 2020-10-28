@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.JoinInfoMapper">
+    <!--增：新增一条记录-->
+    <insert id="addJoinInfo" parameterType="JoinInfo">
+        insert into joininfo(UUID,ji_name,ji_businesslicense,ji_address,
+        ji_paotopath,ji_phone,ji_joinexplain,ji_applyfordate,u_id,r_id,p_id,s_id)
+
+        values (#{UUID},#{jiName},#{jiBusinesslicense},#{jiAddress},#{jiPaotopath},
+        #{jiPhone},#{jiJoinexplain},#{jiApplyfordate},#{uId},#{rId},#{pId},#{sId})
+    </insert>
+
+    <!--删：根据 UUID 删除记录-->
+    <delete id="delJoinInfoById" parameterType="string">
+        delete from joininfo where UUID = #{UUID}
+    </delete>
+
+    <!--改：根据UUID修改信息-->
+    <update id="updateJoinInfoById" parameterType="JoinInfo">
+        update joininfo
+        <set>
+            <if test="jiName != null">
+                ji_name = #{jiName},
+            </if>
+            <if test="jiBusinesslicense != null">
+                ji_businesslicense = #{jiBusinesslicense},
+            </if>
+            <if test="jiAddress != null">
+                ji_address = #{jiAddress},
+            </if>
+            <if test="jiPaotopath != null">
+                ji_paotopath = #{jiPaotopath},
+            </if>
+            <if test="jiPhone != null">
+                ji_phone = #{jiPhone},
+            </if>
+            <if test="jiJoinexplain != null">
+                ji_joinexplain = #{jiJoinexplain},
+            </if>
+            <if test="jiApplyfordate != null">
+                ji_applyfordate = #{jiApplyfordate},
+            </if>
+            <if test="uId != null">
+                u_id = #{uId},
+            </if>
+            <if test="rId != null">
+                r_id = #{rId},
+            </if>
+            <if test="pId != null">
+                p_id = #{pId},
+            </if>
+            <if test="sId != null">
+                s_id = #{sId},
+            </if>
+        </set>
+        where UUID = #{UUID}
+    </update>
+
+    <!--查：根据名称查询记录-->
+    <select id="findJoinInfoByName" parameterType="string" resultMap="JoinInfoMap">
+        select * from joininfo where ji_name = #{jiName}
+    </select>
+
+    <!--查：根据 UUID 查询记录-->
+    <select id="findJoinInfoByUUID" parameterType="string" resultMap="JoinInfoMap">
+        select * from joininfo where UUID = #{UUID}
+    </select>
+
+    <!--查：根据状态查询加盟店铺信息-->
+    <select id="findJoinInfoBySId" parameterType="int" resultMap="JoinInfoMap">
+        select * from joininfo where s_id = #{sId}
+    </select>
+
+    <!--查：根据添加查询申请加盟店铺信息-->
+    <select id="findJoinInfoByCondition" parameterType="map" resultMap="JoinInfoMap">
+        select * from joininfo
+        where
+        ji_name like '%${jiName}%'
+        and
+        p_id like '%${pId}%'
+        and
+        r_id like '%${rId}%'
+    </select>
+
+    <resultMap id="JoinInfoMap" type="JoinInfo">
+        <id property="UUID" column="UUID"></id>
+        <result property="jiName" column="ji_name"></result>
+        <result property="jiBusinesslicense" column="ji_businesslicense"></result>
+        <result property="jiAddress" column="ji_address"></result>
+        <result property="jiPaotopath" column="ji_paotopath"></result>
+        <result property="jiPhone" column="ji_phone"></result>
+        <result property="jiJoinexplain" column="ji_joinexplain"></result>
+        <result property="jiApplyfordate" column="ji_applyfordate"></result>
+        <result property="uId" column="u_id"></result>
+        <result property="rId" column="r_id"></result>
+        <result property="pId" column="p_id"></result>
+        <result property="sId" column="s_id"></result>
+        <association property="users" column="u_id"
+                     select="com.etc.delightstouring.mapper.UserMapper.findUserById"></association>
+        <association property="region" column="r_id"
+                     select="com.etc.delightstouring.mapper.RegionMapper.findRegionById"></association>
+        <association property="province" column="p_id"
+                     select="com.etc.delightstouring.mapper.ProvinceMapper.findProvinceById"></association>
+        <association property="status" column="s_id"
+                     select="com.etc.delightstouring.mapper.StatusMapper.findStatusById"></association>
+    </resultMap>
+
+    <!--查：查询总记录数-->
+    <select id="findCount" resultType="int">
+        select count(UUID) from joininfo
+    </select>
+</mapper>

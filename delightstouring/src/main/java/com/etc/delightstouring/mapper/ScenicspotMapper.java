@@ -3,24 +3,74 @@ package com.etc.delightstouring.mapper;
 import com.etc.delightstouring.domain.Scenicspot;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ScenicspotMapper {
-    /*新增景点*/
-    int add(Scenicspot scenicspot);
-    /*删除景点*/
-    int delete(int ssId);
-    /*修改景点*/
-    int update(Scenicspot scenicspot);
-    /*查询总记录数*/
-    int count(int ssId);
-    /*查询所有景点*/
-    List<Scenicspot> findAll();
-    /*根据省份查找景点*/
-    List<Scenicspot> findByPid(int pId);
-    /*根据地区查找景点*/
-    List<Scenicspot> findByRid(int rId);
-    /*根据景点查询景点*/
-    List<Scenicspot> findByName(String  ssName);
-    /*根据景点描述查询景点*/
-    List<Scenicspot> findByDescribe(String ssDescribe);
+    /**
+     * 增：新增景点
+     * @param scenicspot
+     * @return
+     */
+    int addScenicspot(Scenicspot scenicspot);
+
+    /**
+     * 删：根据编号删除记录
+     * @param ssId
+     * @return
+     */
+    int delScenicspotById(int ssId);
+
+    /**
+     * 改：根据编号修改记录
+     * @param scenicspot
+     * @return
+     */
+    int updateScenicspotById(Scenicspot scenicspot);
+
+    /**
+     * 查：查询总记录数
+     * @return
+     */
+    int findCount();
+
+    /**
+     * 查：查询所有景点
+     * @return
+     */
+    List<Scenicspot> findAllScenicspot();
+
+    /**
+     * 查：根据省份查找景点
+     * @param pId
+     * @return
+     */
+    List<Scenicspot> findScenicspotByPid(Integer pId);
+
+    /**
+     * 查：根据地区查找景点
+     * @param rId
+     * @return
+     */
+    List<Scenicspot> findScenicspotByRid(Integer rId);
+
+    /**
+     * 查：根据名称查询景点
+     * @param ssName
+     * @return
+     */
+    List<Scenicspot> findScenicspotByName(String  ssName);
+
+    /**
+     * 查：根据景点描述查询景点
+     * @param ssDescribe
+     * @return
+     */
+    List<Scenicspot> findScenicspotByDescribe(String ssDescribe);
+
+    /**
+     * 查：根据条件查询景点信息
+     * @return
+     */
+    List<Scenicspot> findScenicspotByCondition(Map<String, Object> map);
 }
+

@@ -3,47 +3,96 @@
 <mapper namespace="com.etc.delightstouring.mapper.ScenicspotMapper">
 
     <!--新增景点-->
-    <insert id="add" parameterType="Scenicspot">
-        insert into scenicspot(UUID,ssId,ssName,pId,rId,ssDescribe,ssAddress,ssPhotopath,ssOpendate) values(#{UUID},#{ssId},#{ssName},#{pId},#{rId},#{ssDescribe},#{ssAddress},#{ssPhotopath},#{ssOpendate})
+    <insert id="addScenicspot" parameterType="Scenicspot">
+        insert into scenicspot(UUID,ss_id,ss_name,p_id,r_id,ss_describe,ss_address,ss_photopath,ss_opendate)
+        values(#{UUID},#{ssId},#{ssName},#{pId},#{rId},#{ssDescribe},#{ssAddress},#{ssPhotopath},#{ssOpendate})
     </insert>
 
     <!--删除景点-->
-    <delete id="delete" parameterType="int">
-        delete from scenicspot where ssId=#{ssId}
+    <delete id="delScenicspotById" parameterType="int">
+        delete from scenicspot where ss_id = #{ssId}
     </delete>
 
     <!--修改景点-->
-    <update id="update" parameterType="Scenicspot">
-        update scenicspot set ssName=#{ssName},pId=#{pId},rId=#{rId},ssDescribe=#{ssDescribe},ssAddress=#{ssAddress},ssPhotopath=#{ssPhotopath},ssOpendate=#{ssOpendate} where ss_id=#{sId}
+    <update id="updateScenicspotById" parameterType="Scenicspot">
+        update scenicspot
+        <set>
+            <if test="ssName != null">
+                ss_name = #{ssName},
+            </if>
+            <if test="pId != null">
+                p_id = #{pId},
+            </if>
+            <if test="rId != null">
+                r_id = #{rId},
+            </if>
+            <if test="ssDescribe != null">
+                ss_describe = #{ssDescribe},
+            </if>
+            <if test="ssAddress != null">
+                ss_address = #{ssAddress},
+            </if>
+            <if test="ssPhotopath != null">
+                ss_photopath = #{ssPhotopath},
+            </if>
+            <if test="ssOpendate != null">
+                ss_opendate = #{ssOpendate},
+            </if>
+        </set>
+        where ss_id = #{ssId}
     </update>
 
     <!--查：查询景点表记录数-->
-    <select id="count" resultType="int">
-        select count(ssId) from scenicspot
-</select>
+    <select id="findCount" resultType="int">
+        select count(ss_id) from scenicspot
+    </select>
+
+    <resultMap id="ScenicspotMap" type="Scenicspot">
+        <id property="UUID" column="UUID"></id>
+        <result property="ssId" column="ss_id"></result>
+        <result property="ssName" column="ss_name"></result>
+        <result property="pId" column="p_id"></result>
+        <result property="rId" column="r_id"></result>
+        <result property="ssDescribe" column="ss_describe"></result>
+        <result property="ssAddress" column="ss_address"></result>
+        <result property="ssPhotopath" column="ss_photopath"></result>
+        <result property="ssOpendate" column="ss_opendate"></result>
+        <association property="province" column="p_id" select="com.etc.delightstouring.mapper.ProvinceMapper.findProvinceById"></association>
+        <association property="region" column="r_id" select="com.etc.delightstouring.mapper.RegionMapper.findRegionById"></association>
+    </resultMap>
 
     <!--查询所有景点-->
-    <select id="findAll" resultType="Scenicspot">
+    <select id="findAllScenicspot" resultMap="ScenicspotMap">
         select * from scenicspot
     </select>
 
+    
     <!--根据省份查找景点-->
-    <select id="findByPid" resultType="Scenicspot">
-        select * from scenicspot  where pId=#{pId}
+    <select id="findScenicspotByPid" parameterType="int" resultMap="ScenicspotMap">
+        select * from scenicspot  where p_id = #{pId}
     </select>
 
     <!--根据地区查找景点-->
-    <select id="findByRid" resultType="Scenicspot">
-        select * from scenicspot  where rId=#{rId}
+    <select id="findScenicspotByRid"  parameterType="int" resultMap="ScenicspotMap">
+        select * from scenicspot where r_id = #{rId}
     </select>
 
     <!--根据景点名称查找景点-->
-    <select id="findByName" parameterType="string" resultType="Scenicspot">
-        select * from scenicspot where ssName like '%${ssName}%'
+    <select id="findScenicspotByName" parameterType="string" resultMap="ScenicspotMap">
+        select * from scenicspot where ss_name like '%${ssName}%'
     </select>
 
     <!--根据景点描述模糊查询-->
-    <select id="findByDescribe" parameterType="string" resultType="Scenicspot">
-        select * from scenicspot where ssDescribe like '%${ssDescribe}%'
+    <select id="findScenicspotByDescribe" parameterType="string" resultMap="ScenicspotMap">
+        select * from scenicspot where ss_describe like '%${ssDescribe}%'
+    </select>
+
+    <!--查：根据条件查询景点信息-->
+    <select id="findScenicspotByCondition" parameterType="map" resultMap="ScenicspotMap">
+        select * from scenicspot
+        where
+        ss_name like '%${ssName}%'
+        and ss_describe like '%${ssDescribe}%'
+        and r_id like '%${rId}%'
     </select>
 </mapper>

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @ClassName StatusServiceImpl
- * @Description TODO
+ * @Description TODO 审核状态表
  * @Author Administrator
  * @Date 20/10/27 11:39
  * @Version 1.0
