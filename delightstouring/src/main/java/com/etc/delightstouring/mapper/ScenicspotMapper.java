@@ -18,7 +18,7 @@ public interface ScenicspotMapper {
      * @param ssId
      * @return
      */
-    int delScenicspotById(int ssId);
+    int delScenicspotById(String ssId);
 
     /**
      * 改：根据编号修改记录
@@ -58,7 +58,14 @@ public interface ScenicspotMapper {
      * @param ssName
      * @return
      */
-    List<Scenicspot> findScenicspotByName(String  ssName);
+    Scenicspot findScenicspotByName(String  ssName);
+
+    /**
+     * 查询：根据编号查询景点信息
+     * @param ssId
+     * @return
+     */
+    Scenicspot findScenicspotById(String ssId);
 
     /**
      * 查：根据景点描述查询景点

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.UserMapper">
+
+    <!-- 新增用户信息-->
+    <insert id="addUser" parameterType="Users">
+        insert into users(UUID,u_id,u_photopath,username,password,u_phone,u_exists)
+        values(#{UUID},#{uId},#{uPhotopath},#{username},#{password},#{uPhone},#{uExists})
+    </insert>
+
+    <!--  根据UUID删除用户信息 -->
+    <delete id="delUserById" parameterType="String">
+        update users set u_exists = 0 where u_id = #{uId}
+    </delete>
+
+    <!--  根据用户id修改信息-->
+    <update id="updateUserById" parameterType="Users">
+        update users
+        <set>
+            <if test="uPhotopath != null">
+                u_photopath = #{uPhotopath},
+            </if>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="uPhone != null">
+                u_phone = #{uPhone},
+            </if>
+            <if test="uExists != null">
+                u_exists = #{uExists},
+            </if>
+        </set>
+        where u_id = #{uId}
+    </update>
+
+    <!--查：根据用户名和密码查询用户信息（登录）-->
+    <select id="findUserByNameAndPwd" parameterType="map" resultType="Users">
+        select * from users where username = #{username} and password = #{password}
+    </select>
+
+    <!--查：根据手机号码查询用户信息-->
+    <select id="findUserByPhone" parameterType="string" resultType="Users">
+        select * from users where u_phone = #{uPhone}
+    </select>
+
+    <!-- 根据用户id查询-->
+    <select id="findUserById" parameterType="String" resultType="Users">
+        select * from users where u_id = #{uId}
+    </select>
+
+    <!--  根据用户名称查询-->
+    <select id="findUserByName" parameterType="String" resultType="Users">
+        select * from users where username = #{username}
+    </select>
+
+    <!-- 根据用户名称模糊查询-->
+    <select id="findUserLikeName" parameterType="String" resultType="Users">
+        select * from users where username like '%${username}%'
+    </select>
+
+    <!--根据用户名和用户名是否存在查询记录-->
+    <select id="findUsersLikeByNameAndExists" parameterType="map" resultType="Users">
+        select * from users where username like '%${username}%' and u_exists like '%${uExists}%'
+    </select>
+
+    <!--查询表总记录数-->
+    <select id="findCount" resultType="int">
+        select count(UUID) from users
+    </select>
+</mapper>

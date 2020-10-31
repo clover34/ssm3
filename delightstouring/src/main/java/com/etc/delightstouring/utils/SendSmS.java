@@ -59,8 +59,11 @@ public class SendSmS{
     public static String getRandomCode(){
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        for(int i = 0; i < 6; i++){
+        while (1==1){
             sb.append(random.nextInt(10));
+            if(sb.length() == 6){
+                break;
+            }
         }
         return sb.toString();
     }

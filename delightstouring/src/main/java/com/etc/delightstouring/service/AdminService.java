@@ -52,11 +52,11 @@ public interface AdminService {
 
     /**
      * 查：根据用户名和密码查询管理员信息（登录）
-     * @param a_name
+     * @param username
      * @param password
      * @return
      */
-    Admin findAdminByNameAndPwd(String a_name, String password);
+    Admin findAdminByNameAndPwd(String username, String password);
 
     /**
      * 查：查询表记录数

@@ -26,17 +26,22 @@ public class ScenicspotServiceImpl implements ScenicspotService {
     /*新增景点*/
     @Override
     public boolean addScenicspot(Scenicspot scenicspot) {
-        if (mapper.findScenicspotByName(scenicspot.getSsName()) == null) {
+        System.out.println("scenicspot = " + scenicspot);
+        if (findScenicspotByName(scenicspot.getSsName()) == null) {
             scenicspot.setUUID(UUIDUtil.getUUID());
             scenicspot.setSsId(CounterUtil.getCounterStr("ss", findCount()));
-            return mapper.addScenicspot(scenicspot) > 0 ? true : false;
+            System.out.println("自动UUID后================scenicspot = " + scenicspot);
+            boolean isOk = mapper.addScenicspot(scenicspot) > 0 ? true : false;
+            System.out.println("准备返回结果");
+            return isOk;
         }
+        System.out.println("\"走我这条路线吗\" = " + "走我这条路线吗");
         return false;
     }
 
     /*删除景点*/
     @Override
-    public boolean delScenicspotById(int ssId) {
+    public boolean delScenicspotById(String ssId) {
         return mapper.delScenicspotById(ssId) > 0 ? true : false;
     }
 
@@ -85,11 +90,18 @@ public class ScenicspotServiceImpl implements ScenicspotService {
 
     /*根据景点名称查询景点*/
     @Override
-    public PageInfo<Scenicspot> findScenicspotByName(String ssName, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Scenicspot> all = mapper.findScenicspotByName(ssName);
-        PageInfo<Scenicspot> pageInfo = new PageInfo<>(all);
-        return pageInfo;
+    public Scenicspot findScenicspotByName(String ssName) {
+        return mapper.findScenicspotByName(ssName);
+    }
+
+    /**
+     * 查：根据编号查询景点信息
+     * @param ssId
+     * @return
+     */
+    @Override
+    public Scenicspot findScenicspotById(String ssId) {
+        return mapper.findScenicspotById(ssId);
     }
 
     /*根据景点描述查询景点*/
@@ -111,11 +123,13 @@ public class ScenicspotServiceImpl implements ScenicspotService {
      * @return
      */
     @Override
-    public PageInfo<Scenicspot> findScenicspotByCondition(Integer rId, String ssName, String ssDescribe, Integer pageNum, Integer pageSize) {
+    public PageInfo<Scenicspot> findScenicspotByCondition(Integer rId, Integer pId, String ssName, String ssDescribe,
+                                                          Integer pageNum, Integer pageSize) {
         Map<String ,Object> map = new HashMap<>();
         map.put("rId",rId);
         map.put("ssName",ssName);
         map.put("ssDescribe",ssDescribe);
+        map.put("pId",pId);
         PageHelper.startPage(pageNum, pageSize);
         List<Scenicspot> scenicspots = mapper.findScenicspotByCondition(map);
         return new PageInfo<Scenicspot>(scenicspots);

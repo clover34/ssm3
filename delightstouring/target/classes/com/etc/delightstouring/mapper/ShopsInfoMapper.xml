@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.etc.delightstouring.mapper.ShopsInfoMapper">
+    <!--增；新增一条记录-->
+    <insert id="addShopsInfo" parameterType="ShopsInfo">
+        insert into
+        shopsinfo(UUID,si_id,si_name,si_businesslicensepath,
+        si_photopath,si_address,si_describe,si_exists,si_opendate,si_phone,u_id,r_id,p_id)
+        values (#{UUID},#{siId},#{siName},#{siBusinesslicense},#{siPaotopath},#{siAddress}
+        ,#{siDescribe},#{siExists},#{siOpendate},#{siPhone},#{uId},#{rId},#{pId})
+    </insert>
+
+    <!--删：根据编号删除一条记录-->
+    <delete id="delShopsInfoById" parameterType="string">
+        delete from shopsinfo where si_name = #{siName}
+    </delete>
+
+    <!--改：根据编号修改记录-->
+    <update id="updateShopsInfoById" parameterType="ShopsInfo">
+        update shopsInfo
+        <set>
+            <if test="siName != null">
+                si_name = #{siName},
+            </if>
+            <if test="siBusinesslicense != null">
+                si_businesslicensepath = #{siBusinesslicense},
+            </if>
+            <if test="siPaotopath != null">
+                si_photopath = #{siPaotopath},
+            </if>
+            <if test="siAddress != null">
+                si_address = #{siAddress},
+            </if>
+            <if test="siDescribe != null">
+                si_describe = #{siDescribe},
+            </if>
+            <if test="siExists != null">
+                si_exists = #{siExists},
+            </if>
+            <if test="siOpendate != null">
+                si_opendate = #{siOpendate},
+            </if>
+            <if test="siPhone != null">
+                si_phone = #{siPhone},
+            </if>
+            <if test="uId != null">
+                u_id = #{uId},
+            </if>
+            <if test="rId != null">
+                r_id = #{rId},
+            </if>
+            <if test="pId != null">
+                p_id = #{pId},
+            </if>
+        </set>
+        where si_id = #{siId}
+    </update>
+
+    <!--查：根据编号查询记录-->
+    <select id="findShopsInfoById" parameterType="string" resultMap="ShopsInfoMap">
+        select * from shopsinfo where si_id like '%${siId}%'
+    </select>
+
+    <!--查：根据名臣查询记录-->
+    <select id="findShopsInfoByName" parameterType="string" resultMap="ShopsInfoMap">
+        select * from shopsinfo where si_name like '%${siName}%'
+    </select>
+
+    <!--查：根据条件查询店铺信息(siName店铺名称，siDescribe店铺描述，siExists店铺是否下线，rId地区，pId省份)-->
+    <select id="findShopsInfoByCondition" parameterType="map" resultMap="ShopsInfoMap">
+        select * from shopsinfo
+        where
+        si_name like '%${siName}%' and
+        si_describe like '%${siDescribe}%' and
+        si_exists like '%${siExists}%' and
+        r_id like '%${rId}%' and
+        p_id like '%${pId}%'
+    </select>
+
+    <resultMap id="ShopsInfoMap" type="ShopsInfo">
+        <id property="UUID" column="UUID"></id>
+        <result property="siId" column="si_id"></result>
+        <result property="siName" column="si_name"></result>
+        <result property="siBusinesslicense" column="si_businesslicense"></result>
+        <result property="siPaotopath" column="si_paotopath"></result>
+        <result property="siAddress" column="si_address"></result>
+        <result property="siDescribe" column="si_describe"></result>
+        <result property="siExists" column="si_exists"></result>
+        <result property="siOpendate" column="si_opendate"></result>
+        <result property="siPhone" column="si_phone"></result>
+        <result property="uId" column="u_id"></result>
+        <result property="rId" column="r_id"></result>
+        <result property="pId" column="p_id"></result>
+        <association property="users" column="u_id"
+                     select="com.etc.delightstouring.mapper.UserMapper.findUserById"></association>
+        <association property="region" column="r_id"
+                     select="com.etc.delightstouring.mapper.RegionMapper.findRegionById"></association>
+        <association property="province" column="p_id"
+                     select="com.etc.delightstouring.mapper.ProvinceMapper.findProvinceById"></association>
+    </resultMap>
+    <!--查：查询总记录数-->
+    <select id="findCount" resultType="int">
+        select count(UUID) from shopsinfo
+    </select>
+</mapper>

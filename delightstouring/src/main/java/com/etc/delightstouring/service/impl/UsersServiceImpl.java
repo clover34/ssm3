@@ -33,6 +33,7 @@ public class UsersServiceImpl implements UsersService {
         if(userMapper.findUserByName(users.getUsername())==null){
             users.setUUID(UUIDUtil.getUUID());
             users.setuId(CounterUtil.getCounterStr("user", findCount()));
+            users.setuExists(1);
             return userMapper.addUser(users) > 0 ? true : false;
         }
         return false;

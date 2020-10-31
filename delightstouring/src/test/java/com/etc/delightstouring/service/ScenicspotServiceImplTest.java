@@ -20,13 +20,17 @@ public class ScenicspotServiceImplTest {
 
     @Test
     public void testAdd(){
-        boolean b = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "泰山", 1, 1, "一览众山小", "山东省", "11", "全天候开放"));
+        boolean b = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "测试景点01", 2, 1, "在外方知家乡意，海花相伴到佳节", "海南省", "/upload/1.png", "5:00-21:00"));
+        boolean b1 = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "测试景点02", 2, 1, "在外方知家乡意，海花相伴到佳节", "海南省", "/upload/1.png", "5:00-21:00"));
+        boolean b2 = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "测试景点03", 2, 1, "在外方知家乡意，海花相伴到佳节", "海南省", "/upload/1.png", "5:00-21:00"));
+        boolean b3 = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "测试景点04", 2, 1, "在外方知家乡意，海花相伴到佳节", "海南省", "/upload/1.png", "5:00-21:00"));
+        boolean b4 = scenicspotService.addScenicspot(new Scenicspot(UUIDUtil.getUUID(), "1", "测试景点05", 2, 1, "在外方知家乡意，海花相伴到佳节", "海南省", "/upload/1.png", "5:00-21:00"));
         System.out.println(b);
     }
 
     @Test
     public void testDel(){
-        boolean b = scenicspotService.delScenicspotById(1);
+        boolean b = scenicspotService.delScenicspotById("1");
         System.out.println(b);
     }
 
@@ -35,12 +39,6 @@ public class ScenicspotServiceImplTest {
         boolean b = scenicspotService.updateScenicspotById(new Scenicspot("1", "嵩山", null, null, "嵩山少林", "河南省登封市", "ss", "全天候开放"));
         System.out.println(b);
     }
-
-    /*@Test
-    public void testfindCount(){
-        int count = scenicspotService.findCount(1);
-        System.out.println(count);
-    }*/
 
     @Test
     public void testfindAllScenicspot(){
@@ -62,8 +60,8 @@ public class ScenicspotServiceImplTest {
 
     @Test
     public void testfindScenicspotByName(){
-        PageInfo<Scenicspot> allScenicspot = scenicspotService.findScenicspotByName("山", 1,1);
-        System.out.println(allScenicspot);
+        Scenicspot scenicspot = scenicspotService.findScenicspotByName("山");
+        System.out.println(scenicspot);
     }
 
     @Test
@@ -74,7 +72,13 @@ public class ScenicspotServiceImplTest {
 
     @Test
     public void testfindScenicspotByCondition(){
-        PageInfo<Scenicspot> allScenicspot = scenicspotService.findScenicspotByCondition(null, "嵩", "山", 1, 1);
+        PageInfo<Scenicspot> allScenicspot = scenicspotService.findScenicspotByCondition(null, null,
+                "嵩", "山", 1, 1);
         System.out.println(allScenicspot);
+    }
+
+    @Test
+    public void testFindById(){
+        System.out.println(scenicspotService.findScenicspotById("ss0001"));
     }
 }

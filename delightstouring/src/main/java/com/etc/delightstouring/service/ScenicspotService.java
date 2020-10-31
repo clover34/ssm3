@@ -19,7 +19,7 @@ public interface ScenicspotService {
      * @param ssId
      * @return
      */
-    boolean delScenicspotById(int ssId);
+    boolean delScenicspotById(String ssId);
 
     /**
      * 改：根据编号修改记录
@@ -30,7 +30,6 @@ public interface ScenicspotService {
 
     /**
      * 查：查询总记录数
-     * @param ssId
      * @return
      */
     int findCount();
@@ -60,7 +59,14 @@ public interface ScenicspotService {
      * @param ssName
      * @return
      */
-    PageInfo<Scenicspot> findScenicspotByName(String  ssName, Integer pageNum, Integer pageSize);
+    Scenicspot findScenicspotByName(String  ssName);
+
+    /**
+     * 查询：根据编号查询景点信息
+     * @param ssId
+     * @return
+     */
+    Scenicspot findScenicspotById(String ssId);
 
     /**
      * 查：根据景点描述查询景点
@@ -76,5 +82,5 @@ public interface ScenicspotService {
      * @param ssDescribe
      * @return
      */
-    PageInfo<Scenicspot> findScenicspotByCondition(Integer rId, String  ssName,String ssDescribe, Integer pageNum, Integer pageSize);
+    PageInfo<Scenicspot> findScenicspotByCondition(Integer rId, Integer pId, String  ssName,String ssDescribe, Integer pageNum, Integer pageSize);
 }

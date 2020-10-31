@@ -27,7 +27,7 @@ public class RegionServiceImpl implements RegionService {
      */
     @Override
     public boolean addRegion(Region region) {
-        if (regionMapper.findRegionByName(region.getRName()) == null) {
+        if (regionMapper.findRegionByName(region.getrName()) == null) {
             return regionMapper.addRegion(region) > 0 ? true : false;
         }
         return false;

@@ -64,9 +64,9 @@ public class RegionServiceTest {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         RegionService regionService = (RegionService) context.getBean("regionServiceImpl");
         Region region = new Region( );
-        region.setRId(7);
-        region.setRName("昌平区");
-        region.setPId(1);
+        region.setrId(7);
+        region.setrName("昌平区");
+        region.setpId(1);
         System.out.println(regionService.updateRegionById(region) ? "修改成功" : "修改失败");
     }
 }

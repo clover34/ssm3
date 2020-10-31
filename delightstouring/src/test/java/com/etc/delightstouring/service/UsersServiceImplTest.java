@@ -21,13 +21,10 @@ public class UsersServiceImplTest {
     @Test
     public void tsetAdd(){
         Users user = new Users();
-        user.setUUID(UUIDUtil.getUUID());
-        user.setuId(CounterUtil.getCounterStr("user",usersService.findCount()));
         user.setuPhotopath("11");
-        user.setUsername("qq");
+        user.setUsername("李四");
         user.setPassword("123");
-        user.setuPhone("1234567");
-        user.setuExists(1);
+        user.setuPhone("18389333565");
         boolean b = usersService.addUser(user);
         System.out.println(b);
     }
@@ -63,7 +60,7 @@ public class UsersServiceImplTest {
 
     @Test
     public void testfindUserByPhone(){
-        Users userByPhone = usersService.findUserByPhone("123456789");
+        Users userByPhone = usersService.findUserByPhone("17608994857");
         System.out.println(userByPhone);
     }
 

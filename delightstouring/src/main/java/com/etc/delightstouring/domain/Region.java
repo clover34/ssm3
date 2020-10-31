@@ -41,27 +41,27 @@ public class Region implements Serializable {
                 '}';
     }
 
-    public Integer getRId() {
+    public Integer getrId() {
         return rId;
     }
 
-    public void setRId(Integer rId) {
+    public void setrId(Integer rId) {
         this.rId = rId;
     }
 
-    public String getRName() {
+    public String getrName() {
         return rName;
     }
 
-    public void setRName(String rName) {
+    public void setrName(String rName) {
         this.rName = rName;
     }
 
-    public Integer getPId() {
+    public Integer getpId() {
         return pId;
     }
 
-    public void setPId(Integer pId) {
+    public void setpId(Integer pId) {
         this.pId = pId;
     }
 
